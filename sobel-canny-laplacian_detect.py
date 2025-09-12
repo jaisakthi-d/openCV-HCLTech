@@ -1,0 +1,18 @@
+import cv2 as cv
+import numpy as np
+img = cv.imread("concrete_crackimg.jpg")
+img=cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+blurred=cv.GaussianBlur(img,(5,5),cv.BORDER_DEFAULT)
+sobelx=cv.Sobel(blurred,cv.CV_64F,1,0)
+sobely=cv.Sobel(blurred,cv.CV_64F,0,1)
+sobel_img=np.sqrt(sobelx**2+sobely**2)
+sobel_img=np.uint8(sobel_img)
+canny=cv.Canny(img,100,170)
+laplacian=cv.Laplacian(blurred,cv.CV_64F)
+laplacian=np.uint8(np.absolute(laplacian))
+cv.imshow("Original image",img)
+cv.imshow("sobel applied image",sobel_img)
+cv.imshow("canny edge detected image",canny)
+cv.imshow("laplacian applied image",laplacian)
+cv.waitKey(0)
+cv.destroyAllWindows()
